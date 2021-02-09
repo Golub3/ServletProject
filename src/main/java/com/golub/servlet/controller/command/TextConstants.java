@@ -17,11 +17,17 @@ public interface TextConstants {
         String CURRENT_PAGE = "currentPage";
         String NO_OF_PAGES = "noOfPages";
         String USERS = "users";
+        String TICKETS = "tickets";
         String SCHEDULES = "schedules";
+        String EXPOSITIONS = "expositions";
+        String HALLS = "halls";
         String SORT_FIELD = "sort_field";
         String DIR = "dir";
         String START_DATE = "start_date";
         String END_DATE = "end_date";
+        String START_TIME = "time_start";
+        String END_TIME = "time_end";
+        String DATE = "date";
     }
 
 
@@ -46,7 +52,9 @@ public interface TextConstants {
         String TO_LOGIN = "/WEB-INF/common/login.jsp";
         String TO_REGISTRATION = "/WEB-INF/common/registration.jsp";
         String TO_SHOW_USERS = "/WEB-INF/admin/show-users.jsp";
-        String TO_SHOW_SCHEDULES_USER = "/WEB-INF/user/schedules.jsp";
+        String TO_SHOW_SCHEDULES = "/WEB-INF/user/schedules.jsp";
+        String TO_SHOW_SCHEDULES_FOR_ADMIN = "/WEB-INF/admin/schedules.jsp";
+        String TO_SCHEDULE_CREATE = "/WEB-INF/admin/createSchedule.jsp";
     }
 
     interface CommandPaths {
@@ -60,6 +68,7 @@ public interface TextConstants {
         String HOME = "home";
         String REG_ME = "reg-me";
         String LOG_ME = "log-me";
+        String SCHEDULE_CREATE_PAGE = "createSchedule";
 
         //servlet
         String APPLICATION_PATH_REGEX = ".*/app/";
@@ -67,7 +76,10 @@ public interface TextConstants {
 
         //actions
         String SHOW_USERS = "show-users";
-        String SHOW_SCHEDULES_USER = "schedules";
+        String SHOW_SCHEDULES = "schedules";
+        String TICKET_BUY = "ticket";
+        String SCHEDULE_DELETE = "deleteSchedule";
+        String SCHEDULE_CREATE = "createSchedulePage";
     }
 
 }

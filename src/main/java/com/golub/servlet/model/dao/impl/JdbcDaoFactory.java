@@ -42,6 +42,13 @@ public class JdbcDaoFactory extends DaoFactory {
         return jdbcHallDao;
     }
 
+    @Override
+    public TicketDao createTicketDao() {
+        JdbcTicketDao jdbcTicketDao = JdbcTicketDao.getInstance();
+        jdbcTicketDao.initConnection(connection);
+        return jdbcTicketDao;
+    }
+
     private Connection getConnection() {
         try {
             return dataSource.getConnection();

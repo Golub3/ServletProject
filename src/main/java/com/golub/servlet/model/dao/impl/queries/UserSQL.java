@@ -12,6 +12,8 @@ public enum UserSQL {
             "(first_name, last_name, email, password, role) " +
             "VALUES ((?),(?),(?),(?),(?))"),
 
+    ALTER_BALANCE_BY_ID("UPDATE user SET balance=? WHERE id=(?)"),
+
     DELETE(""),
     UPDATE(""),
 
@@ -24,7 +26,7 @@ public enum UserSQL {
                                       " order by first_name DESC " +
                                       " limit ?, ?;"),
 
-    CALC_USERS_BY_USER_ID("SELECT count(*) from user");
+    CALC_USERS("SELECT count(*) from user");
 
 
     String QUERY;

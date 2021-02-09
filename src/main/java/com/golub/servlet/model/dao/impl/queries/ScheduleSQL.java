@@ -8,11 +8,11 @@ public enum ScheduleSQL {
 
     READ_ALL("select * from schedule"),
 
-//    INSERT("INSERT INTO user " +
-//            "(first_name, last_name, email, password, role) " +
-//            "VALUES ((?),(?),(?),(?),(?))"),
-//
-//    DELETE(""),
+    INSERT("INSERT INTO schedule " +
+            "(time_start, time_end, date, id_h, id_e) " +
+            "VALUES ((?),(?),(?),(?),(?))"),
+
+    DELETE("DELETE FROM schedule WHERE id=(?)"),
 //    UPDATE(""),
 //
 //    READ_BY_EMAIL("SELECT * FROM user where email=(?);"),

@@ -1,9 +1,9 @@
 package com.golub.servlet.model.dao.mapper;
 
-import com.golub.servlet.model.entity.Hall;
-import com.golub.servlet.model.entity.Schedule;
 import com.golub.servlet.model.entity.Ticket;
-import com.golub.servlet.model.entity.User;
+import com.golub.servlet.model.service.ExpositionService;
+import com.golub.servlet.model.service.UserService;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,19 +11,19 @@ import java.util.Map;
 
 public class TicketMapper implements ObjectMapper<Ticket>{
     private static final String ID_TICKET = "ticket_id";
-    private final UserMapper userMapper = new UserMapper();
-    private final ExpositionMapper expositionMapper = new ExpositionMapper();
-
+    private static final String ID_USER = "id";
+    private static final String ID_EXPOSITION = "id_exp";
 
     @Override
     public Ticket extractFromResultSet(ResultSet rs) throws SQLException {
+        ExpositionService expositionService = ExpositionService.getInstance();
+        UserService userService = UserService.getInstance();
         return Ticket.builder()
                 .withTicket_id(rs.getInt(ID_TICKET))
-                .withUser(userMapper.extractFromResultSet(rs))
-                .withExposition(expositionMapper.extractFromResultSet(rs))
+                .withUser(userService.getUserById(rs.getLong(ID_USER)))
+                .withExposition(expositionService.getExpositionById(rs.getLong(ID_EXPOSITION)))
                 .build();
     }
-
 
     public Ticket makeUnique(Map<Long, Ticket> existing, Ticket entity) {
         existing.putIfAbsent(entity.getTicket_id(), entity);

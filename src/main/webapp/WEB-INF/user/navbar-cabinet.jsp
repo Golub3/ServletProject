@@ -1,7 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
 
@@ -13,6 +12,9 @@
         </button>
         <a class="navbar-brand js-scroll-trigger">
             <fmt:message key="greeting"/>
+        </a>
+        <a class="navbar-brand js-scroll-trigger">
+            <fmt:message key="label.balance"/> : ${balance}
         </a>
 
         <div>

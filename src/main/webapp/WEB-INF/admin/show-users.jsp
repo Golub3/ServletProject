@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
 
@@ -18,7 +17,7 @@
     <link href="<c:url value="${pageContext.request.contextPath}/css/bootstrap.min.css" />" rel="stylesheet">
 </head>
 <body>
-
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/admin/navbar-cabinet.jsp"/>
 <div class="container-md">
     <table class="table">
         <thead class="thead-dark">

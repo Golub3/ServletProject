@@ -20,8 +20,12 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/WEB-INF/user/navbar-cabinet.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/admin/navbar-cabinet.jsp"/>
 <main class="container-md">
+
+    <a href="${pageContext.request.contextPath}/app/createSchedulePage" class="btn btn-primary btn-sm mb-3">
+        <fmt:message key="button.create.schedule"/> </a>
+
     <form action="${pageContext.request.contextPath}/app/schedules?currentPage=${currentPage}
 &${sort_way}=exposition.theme&${dir_way}=asc"
           method="POST">
@@ -83,8 +87,8 @@
                 <td><c:out value="${schedules.time_end}"/></td>
                 <td><c:out value="${schedules.exposition.price}"/></td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/app/ticket?id=${schedules.exposition.id_exp}" class="btn btn-danger">
-                        <fmt:message key="button.buy"/></a>
+                    <a href="${pageContext.request.contextPath}/app/deleteSchedule?id=${schedules.id}" class="btn btn-danger">
+                        <fmt:message key="button.delete"/></a>
                 </td>
             </tr>
         </c:forEach>

@@ -4,6 +4,7 @@ package com.golub.servlet.model.dao;
 import com.golub.servlet.model.entity.User;
 import com.golub.servlet.model.service.UserService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserDao extends GenericDao<User> {
@@ -13,6 +14,8 @@ public interface UserDao extends GenericDao<User> {
     boolean userIsExist(final String email, final String password);
 
     boolean emailIsAlreadyTaken(final String email);
+
+    void alterBalanceById(BigDecimal balance, long id);
 
     UserService.PaginationResult findByPagination(int offset, int noOfRecords);
 }

@@ -2,13 +2,11 @@ package com.golub.servlet.model.dao.impl;
 
 import com.golub.servlet.model.dao.ScheduleDao;
 import com.golub.servlet.model.dao.impl.queries.ScheduleSQL;
+import com.golub.servlet.model.dao.impl.queries.TicketSQL;
 import com.golub.servlet.model.dao.impl.queries.UserSQL;
 import com.golub.servlet.model.dao.mapper.ScheduleMapper;
-import com.golub.servlet.model.dao.mapper.UserMapper;
 import com.golub.servlet.model.entity.Schedule;
-import com.golub.servlet.model.entity.User;
 import com.golub.servlet.model.service.ScheduleService;
-import com.golub.servlet.model.service.UserService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -54,7 +52,20 @@ public class JdbcScheduleDao implements ScheduleDao {
 
     @Override
     public void create(Schedule schedule) {
-        throw new UnsupportedOperationException("This action has not yet been developed.");
+        try (PreparedStatement ps = connection.prepareStatement(ScheduleSQL.INSERT.getQUERY())) {
+
+            ps.setTime(1, java.sql.Time.valueOf(schedule.getTime_start()));
+            ps.setTime(2, java.sql.Time.valueOf(schedule.getTime_end()));
+            ps.setDate(3, java.sql.Date.valueOf(schedule.getDate()));
+            ps.setLong(4, schedule.getHall().getId_hall());
+            ps.setLong(5, schedule.getExposition().getId_exp());
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            logger.fatal("Caught SQLException exception", e);
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -95,12 +106,25 @@ public class JdbcScheduleDao implements ScheduleDao {
 
     @Override
     public void delete(long id) {
-        throw new UnsupportedOperationException("This action has not yet been developed.");
+        try (PreparedStatement ps = connection.prepareStatement(ScheduleSQL.DELETE.getQUERY())) {
+
+            ps.setLong(1, id);
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            logger.fatal("Caught SQLException exception", e);
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void close() {
-
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -127,8 +151,6 @@ public class JdbcScheduleDao implements ScheduleDao {
         try (PreparedStatement schedulesPS = connection.prepareStatement(
                 String.format(ScheduleSQL.GET_SCHEDULES_BY_PAGINATION.getQUERY(), field, sortType));
              PreparedStatement countRowsPS = connection.prepareStatement(ScheduleSQL.CALC_SCHEDULES_BY_SCHEDULE_ID.getQUERY())) {
-            logger.info(start_date);
-            logger.info(end_date);
             schedulesPS.setDate(1, java.sql.Date.valueOf(start_date));
             schedulesPS.setDate(2, java.sql.Date.valueOf(end_date));
             schedulesPS.setInt(3, lowerBound);

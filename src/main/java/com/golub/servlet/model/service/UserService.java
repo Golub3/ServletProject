@@ -6,6 +6,7 @@ import com.golub.servlet.model.dao.UserDao;
 import com.golub.servlet.model.entity.User;
 import com.golub.servlet.model.exception.AlreadyExistingDBRecordException;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
@@ -50,7 +51,6 @@ public class UserService {
                     user.getEmail());
         }
         userDao.create(user);
-
     }
 
     /**
@@ -66,7 +66,6 @@ public class UserService {
                 .filter(student -> email.equals(student.getEmail()))
                 .findAny()
                 .orElse(null);
-
     }
 
     /**
@@ -103,6 +102,17 @@ public class UserService {
         UserDao dao = daoFactory.createUserDao();
         return dao.findById(id);
     }
+
+    /**
+     * obtains student by id.
+     *
+     * @param id long.
+     */
+    public void setBalanceById(BigDecimal balance, long id) {
+        UserDao dao = daoFactory.createUserDao();
+        dao.alterBalanceById(balance, id);
+    }
+
 
     /**
      * obtains List of all students.

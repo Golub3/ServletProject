@@ -39,13 +39,13 @@ public class AccessFilter implements Filter {
                                 toCollection(HashSet::new), Collections::unmodifiableSet)));
 
         allowedRoutes.put(User.ROLE.USER,
-                Stream.of(LOGOUT, PERSONAL_CABINET, SHOW_SCHEDULES_USER)
+                Stream.of(LOGOUT, PERSONAL_CABINET, SHOW_SCHEDULES, TICKET_BUY)
                         .collect(collectingAndThen(
                                 toCollection(HashSet::new), Collections::unmodifiableSet)));
 
-
         allowedRoutes.put(User.ROLE.ADMIN,
-                Stream.of(LOGOUT, PERSONAL_CABINET, SHOW_USERS)
+                Stream.of(LOGOUT, PERSONAL_CABINET, SHOW_USERS, SHOW_SCHEDULES, SCHEDULE_DELETE, TO_SCHEDULE_CREATE,
+                        SCHEDULE_CREATE, SCHEDULE_CREATE_PAGE)
                         .collect(collectingAndThen(
                                 toCollection(HashSet::new), Collections::unmodifiableSet)));
     }

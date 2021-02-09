@@ -24,7 +24,7 @@ public enum HallSQL {
 //            " order by first_name DESC " +
 //            " limit ?, ?;"),
 //
-//    CALC_USERS_BY_USER_ID("SELECT count(*) from user");
+//    CALC_USERS("SELECT count(*) from user");
 
 
     String QUERY;

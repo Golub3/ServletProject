@@ -2,19 +2,22 @@ package com.golub.servlet.model.dao.impl;
 
 import com.golub.servlet.model.dao.HallDao;
 import com.golub.servlet.model.dao.impl.queries.HallSQL;
+import com.golub.servlet.model.dao.impl.queries.ScheduleSQL;
 import com.golub.servlet.model.dao.impl.queries.UserSQL;
 import com.golub.servlet.model.dao.mapper.HallMapper;
+import com.golub.servlet.model.dao.mapper.ScheduleMapper;
 import com.golub.servlet.model.dao.mapper.UserMapper;
 import com.golub.servlet.model.entity.Hall;
+import com.golub.servlet.model.entity.Schedule;
 import com.golub.servlet.model.entity.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JdbcHallDao implements HallDao {
 
@@ -82,7 +85,28 @@ public class JdbcHallDao implements HallDao {
 
     @Override
     public List<Hall> findAll() {
-        throw new UnsupportedOperationException("This action has not yet been developed.");
+        Map<Long, Hall> halls = new HashMap<>();
+
+        final String query = HallSQL.READ_ALL.getQUERY();
+
+        try (Statement st = connection.createStatement()) {
+            final ResultSet rs = st.executeQuery(query);
+            return mapFindManyResultSet(rs, halls);
+        } catch (SQLException e) {
+            logger.fatal("Caught SQLException exception", e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //utility method. created in order not to duplicate code below
+    private List<Hall> mapFindManyResultSet(ResultSet rs, Map<Long, Hall> schedules) throws SQLException {
+        final HallMapper hallMapper = new HallMapper();
+        while (rs.next()) {
+            Hall hall = hallMapper.extractFromResultSet(rs);
+            hall = hallMapper.makeUnique(schedules, hall);
+        }
+        return new ArrayList<>(schedules.values());
     }
 
     @Override
@@ -97,6 +121,10 @@ public class JdbcHallDao implements HallDao {
 
     @Override
     public void close() {
-
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

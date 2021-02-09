@@ -9,6 +9,7 @@ import com.golub.servlet.model.dao.mapper.UserMapper;
 import com.golub.servlet.model.entity.User;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,7 +79,7 @@ public class JdbcUserDao implements UserDao {
     /**
      * finds User in database.
      *
-     * @param id student id.
+     * @param id user id.
      */
     @Override
     public User findById(long id) {
@@ -98,6 +99,24 @@ public class JdbcUserDao implements UserDao {
             e.printStackTrace();
         }
         return result;
+    }
+
+    /**
+     * alter User's balance by id in database.
+     *
+     * @param id balance BigDecimal.
+     * @param id id long.
+     */
+    @Override
+    public void alterBalanceById(BigDecimal balance, long id) {
+        try (PreparedStatement ps = connection.prepareStatement(UserSQL.ALTER_BALANCE_BY_ID.getQUERY())) {
+            ps.setBigDecimal(1, balance);
+            ps.setLong(2, id);
+            ps.execute();
+        } catch (SQLException e) {
+            logger.fatal("Caught SQLException exception", e);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -249,7 +268,7 @@ public class JdbcUserDao implements UserDao {
         UserMapper userMapper = new UserMapper();
 
         try (PreparedStatement usersPS = connection.prepareStatement(UserSQL.GET_USERS_BY_PAGINATION.getQUERY());
-             PreparedStatement countRowsPS = connection.prepareStatement(UserSQL.CALC_USERS_BY_USER_ID.getQUERY())) {
+             PreparedStatement countRowsPS = connection.prepareStatement(UserSQL.CALC_USERS.getQUERY())) {
             usersPS.setInt(1, lowerBound);
             usersPS.setInt(2, upperBound);
 

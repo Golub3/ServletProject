@@ -6,6 +6,8 @@ import com.golub.servlet.model.dao.HallDao;
 import com.golub.servlet.model.entity.Exposition;
 import com.golub.servlet.model.entity.Hall;
 
+import java.util.List;
+
 /**
  * This class realize logic
  * for manipulation with db.
@@ -30,6 +32,14 @@ public class ExpositionService {
         }
 
         return instance;
+    }
+
+    /**
+     * obtains List of all expositions.
+     */
+    public List<Exposition> getAllExpositions() {
+        ExpositionDao dao = daoFactory.createExpositionDao();
+        return dao.findAll();
     }
 
     /**

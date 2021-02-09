@@ -5,8 +5,7 @@ import com.golub.servlet.controller.command.account.Login;
 import com.golub.servlet.controller.command.account.Logout;
 import com.golub.servlet.controller.command.account.PersonalCabinet;
 import com.golub.servlet.controller.command.account.Registration;
-import com.golub.servlet.controller.command.actions.ShowSchedules;
-import com.golub.servlet.controller.command.actions.ShowUsers;
+import com.golub.servlet.controller.command.actions.*;
 import com.golub.servlet.controller.command.directions.*;
 
 import javax.servlet.ServletConfig;
@@ -53,12 +52,20 @@ public class Servlet extends HttpServlet {
                 new RegMe());
         commands.put(LOG_ME,
                 new LogMe());
+        commands.put(SCHEDULE_CREATE_PAGE,
+                new ToScheduleCreate());
 
         //actions
         commands.put(SHOW_USERS,
                 new ShowUsers());
-        commands.put(SHOW_SCHEDULES_USER,
+        commands.put(SHOW_SCHEDULES,
                 new ShowSchedules());
+        commands.put(TICKET_BUY,
+                new TicketBuy());
+        commands.put(SCHEDULE_DELETE,
+                new ScheduleDelete());
+        commands.put(SCHEDULE_CREATE,
+                new ScheduleCreate());
     }
 
 

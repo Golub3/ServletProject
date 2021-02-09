@@ -5,6 +5,7 @@ import com.golub.servlet.controller.command.Command;
 import com.golub.servlet.controller.command.CommandUtility;
 import com.golub.servlet.controller.command.account.Login;
 import com.golub.servlet.model.entity.Schedule;
+import com.golub.servlet.model.entity.User;
 import com.golub.servlet.model.service.ScheduleService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -13,13 +14,15 @@ import javax.ejb.Local;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.golub.servlet.controller.command.TextConstants.Parameters.*;
-import static com.golub.servlet.controller.command.TextConstants.Routes.TO_SHOW_SCHEDULES_USER;
+import static com.golub.servlet.controller.command.TextConstants.Routes.TO_SHOW_SCHEDULES;
+import static com.golub.servlet.controller.command.TextConstants.Routes.TO_SHOW_SCHEDULES_FOR_ADMIN;
 import static com.golub.servlet.model.service.ScheduleService.PaginationResult;
 
 
@@ -32,6 +35,8 @@ import static com.golub.servlet.model.service.ScheduleService.PaginationResult;
 public class ShowSchedules implements Command {
 
     private final ScheduleService scheduleService;
+    LocalDate start_date = LocalDate.now().minusDays(14);
+    LocalDate end_date = LocalDate.now().plusMonths(6);
 
     private static final Logger logger = LogManager.getLogger(Login.class);
 
@@ -50,7 +55,8 @@ public class ShowSchedules implements Command {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
+        final HttpSession session = request.getSession();
+        final User.ROLE role = (User.ROLE) session.getAttribute(ROLE);
         //to prevent schedule coming back to cached pages after logout
         CommandUtility.disallowBackToCached(request, response);
 
@@ -61,7 +67,10 @@ public class ShowSchedules implements Command {
         }
 
         performPagination(request, currentPage, RECORDS_PER_PAGE);
-        return TO_SHOW_SCHEDULES_USER;
+        if (role.equals(User.ROLE.ADMIN) ){
+            return TO_SHOW_SCHEDULES_FOR_ADMIN;
+        } else return TO_SHOW_SCHEDULES;
+
     }
 
     private void performPagination(HttpServletRequest request, int currentPage, int recordsPerPage) {
@@ -70,10 +79,10 @@ public class ShowSchedules implements Command {
         request.setAttribute("dir_way", DIR);
         request.setAttribute("start_date_way", START_DATE);
         request.setAttribute("end_date_way", END_DATE);
+        request.setAttribute("schedules_uri", request.getRequestURI());
         String sort_field = "exposition.theme";
         String dir = "asc";
-        LocalDate start_date = LocalDate.now().minusDays(14);
-        LocalDate end_date = LocalDate.now().plusMonths(6);
+
 
         if (request.getParameter(SORT_FIELD) != null) {
             sort_field = request.getParameter(SORT_FIELD);

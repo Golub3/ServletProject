@@ -15,6 +15,7 @@ public abstract class DaoFactory {
     public abstract ExpositionDao createExpositionDao();
     public abstract ScheduleDao createScheduleDao();
     public abstract HallDao createHallDao();
+    public abstract TicketDao createTicketDao();
 
 
     public static DaoFactory getInstance() {

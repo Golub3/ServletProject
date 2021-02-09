@@ -5,6 +5,7 @@ import com.golub.servlet.model.dao.ScheduleDao;
 import com.golub.servlet.model.entity.Schedule;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -42,6 +43,11 @@ public class ScheduleService {
         return dao.findAll();
     }
 
+    public void deleteScheduleById(long id){
+        ScheduleDao dao = daoFactory.createScheduleDao();
+        dao.delete(id);
+    }
+
     /**
      * Obtains List of schedules.
      */
@@ -49,6 +55,14 @@ public class ScheduleService {
                                                      int lowerBound, int upperBound) {
         ScheduleDao dao = daoFactory.createScheduleDao();
         return dao.findByPagination(field, dir, start_date, end_date, lowerBound, upperBound);
+    }
+
+    /**
+     * Create schedule.
+     */
+    public void createSchedule(Schedule schedule) {
+        ScheduleDao dao = daoFactory.createScheduleDao();
+        dao.create(schedule);
     }
 
     /**

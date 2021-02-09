@@ -11,11 +11,11 @@ import com.golub.servlet.model.entity.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JdbcExpositionDao implements ExpositionDao {
 
@@ -83,7 +83,28 @@ public class JdbcExpositionDao implements ExpositionDao {
 
     @Override
     public List<Exposition> findAll() {
-        throw new UnsupportedOperationException("This action has not yet been developed.");
+        Map<Long, Exposition> expositions = new HashMap<>();
+
+        final String query = ExpositionSQL.READ_ALL.getQUERY();
+
+        try (Statement st = connection.createStatement()) {
+            final ResultSet rs = st.executeQuery(query);
+            return mapFindManyResultSet(rs, expositions);
+        } catch (SQLException e) {
+            logger.fatal("Caught SQLException exception", e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //utility method. created in order not to duplicate code below
+    private List<Exposition> mapFindManyResultSet(ResultSet rs, Map<Long, Exposition> expositions) throws SQLException {
+        final ExpositionMapper expositionMapper = new ExpositionMapper();
+        while (rs.next()) {
+            Exposition exposition = expositionMapper.extractFromResultSet(rs);
+            exposition = expositionMapper.makeUnique(expositions, exposition);
+        }
+        return new ArrayList<>(expositions.values());
     }
 
     @Override
@@ -98,7 +119,11 @@ public class JdbcExpositionDao implements ExpositionDao {
 
     @Override
     public void close() {
-
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
