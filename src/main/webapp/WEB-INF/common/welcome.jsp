@@ -16,10 +16,10 @@
     <meta name="viewport" content="width=device-width"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 <%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css">--%>
-    <link href="<c:url value="/css/bootstrap.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/js/bootstrap.bundle.min.js" />" rel="script">
+<%--    <link href="<c:url value="/css/bootstrap.min.css" />" rel="stylesheet">--%>
+<%--    <link href="<c:url value="/js/bootstrap.bundle.min.js" />" rel="script">--%>
 <%--    <jsp:include page="${pageContext.request.contextPath}/css/bootstrap_min.jsp"/>--%>
-    <jsp:include page="${pageContext.request.contextPath}/js/jquery.jsp"/>
+<%--    <jsp:include page="${pageContext.request.contextPath}/js/jquery.jsp"/>--%>
 <%--    <jsp:include page="${pageContext.request.contextPath}/js/bootstrap_min.jsp"/>--%>
 
 </head>

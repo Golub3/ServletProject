@@ -44,13 +44,13 @@ public class UserService {
      * @param user User.
      */
     public void registerUserAccount(User user) throws AlreadyExistingDBRecordException {
-        UserDao userDao = daoFactory.createUserDao();
-
-        if (userDao.emailIsAlreadyTaken(user.getEmail())) {
-            throw new AlreadyExistingDBRecordException("Failed registering already existing user email " +
-                    user.getEmail());
+        try(UserDao userDao = daoFactory.createUserDao()) {
+            if (userDao.emailIsAlreadyTaken(user.getEmail())) {
+                throw new AlreadyExistingDBRecordException("Failed registering already existing user email " +
+                        user.getEmail());
+            }
+            userDao.create(user);
         }
-        userDao.create(user);
     }
 
     /**

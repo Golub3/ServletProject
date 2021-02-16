@@ -103,7 +103,6 @@ public class TicketService {
     public long getCountOfTicketsBoughtByUser(long exp_id, long user_id) {
         TicketDao dao = daoFactory.createTicketDao();
         return dao.countOfTicketsBoughtByUser(exp_id, user_id);
-
     }
 
     /**

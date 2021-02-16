@@ -13,12 +13,6 @@ public enum ScheduleSQL {
             "VALUES ((?),(?),(?),(?),(?))"),
 
     DELETE("DELETE FROM schedule WHERE id=(?)"),
-//    UPDATE(""),
-//
-//    READ_BY_EMAIL("SELECT * FROM user where email=(?);"),
-//
-//    READ_BY_EMAIL_PASSWORD("SELECT * FROM user where email=(?) and password=(?);"),
-//
 
     GET_SCHEDULES_BY_PAGINATION("SELECT * FROM schedule, exposition " +
             " where schedule.id_e = exposition.id_exp and (date >= ? and date <= ?)" +

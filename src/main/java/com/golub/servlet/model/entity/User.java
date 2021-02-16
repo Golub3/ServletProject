@@ -141,4 +141,68 @@ public class User {
         }
 
     }
+
+    public static class UserBuilder {
+        private long id;
+        private String firstName;
+        private String lastName;
+        private String email;
+        private String password;
+        private BigDecimal balance;
+        private ROLE role;
+
+        public UserBuilder() {
+        }
+
+        public static UserBuilder anUser() {
+            return new UserBuilder();
+        }
+
+        public UserBuilder withId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder withFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public UserBuilder withLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public UserBuilder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder withPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder withBalance(BigDecimal balance) {
+            this.balance = balance;
+            return this;
+        }
+
+        public UserBuilder withRole(ROLE role) {
+            this.role = role;
+            return this;
+        }
+
+        public User build() {
+            User user = new User();
+            user.setId(id);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setBalance(balance);
+            user.setRole(role);
+            return user;
+        }
+    }
 }
