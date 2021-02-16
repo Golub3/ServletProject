@@ -58,7 +58,7 @@ public class JdbcExpositionDao implements ExpositionDao {
     /**
      * finds Exposition in database.
      *
-     * @param id student id.
+     * @param id user id.
      */
     @Override
     public Exposition findById(long id) {

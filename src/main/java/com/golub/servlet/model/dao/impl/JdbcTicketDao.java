@@ -13,6 +13,7 @@ import com.golub.servlet.model.service.UserService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,21 +62,44 @@ public class JdbcTicketDao implements TicketDao {
 
 
     /**
-     * create Ticket in database.
+     * create Ticket in database
+     * and alter User balance.
      *
      * @param user_id long.
      * @param exp_id long.
+     * @param balance BigDecimal.
+     * @param id long.
      */
-    public void createByIds(long exp_id, long user_id) {
-        try (PreparedStatement ps = connection.prepareStatement(TicketSQL.INSERT_BY_IDS.getQUERY())) {
+    public void createByIdsAndAlterBalance(long exp_id, long user_id, BigDecimal balance, long id) {
+        try (PreparedStatement psTicket = connection.prepareStatement(TicketSQL.INSERT_BY_IDS.getQUERY());
+             PreparedStatement psUser = connection.prepareStatement(UserSQL.ALTER_BALANCE_BY_ID.getQUERY())) {
 
-            ps.setLong(1, exp_id);
-            ps.setLong(2, user_id);
+            logger.info("Transaction opened");
+            connection.setAutoCommit(false);
 
-            ps.execute();
+            psTicket.setLong(1, exp_id);
+            psTicket.setLong(2, user_id);
+            psTicket.execute();
+
+            psUser.setBigDecimal(1, balance);
+            psUser.setLong(2, id);
+            psUser.execute();
+
+            connection.setAutoCommit(true);
+            logger.info("Transaction was successfully committed");
 
         } catch (SQLException e) {
             logger.fatal("Caught SQLException exception", e);
+            try {
+                connection.rollback();
+            } catch (SQLException er) {
+                logger.error("Exception occurred during connection rollback execution");
+            }
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException er) {
+                logger.error("An attempt to set connection in auto commit mode failed");
+            }
             e.printStackTrace();
         }
     }
@@ -107,7 +131,6 @@ public class JdbcTicketDao implements TicketDao {
         }
         return false;
     }
-
 
     /**
      * finds Ticket in database.

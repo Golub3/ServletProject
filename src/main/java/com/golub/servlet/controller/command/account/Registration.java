@@ -70,7 +70,7 @@ public class Registration implements Command {
     private User accomplishNewUser(String email, String password, String firstName, String lastName){
         final User user = new User();
         user.setRole(User.ROLE.USER);
-        user.setPassword(password);
+        user.setPassword(userService.encodePassword(password));
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);

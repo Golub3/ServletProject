@@ -102,24 +102,6 @@ public class JdbcUserDao implements UserDao {
     }
 
     /**
-     * alter User's balance by id in database.
-     *
-     * @param id balance BigDecimal.
-     * @param id id long.
-     */
-    @Override
-    public void alterBalanceById(BigDecimal balance, long id) {
-        try (PreparedStatement ps = connection.prepareStatement(UserSQL.ALTER_BALANCE_BY_ID.getQUERY())) {
-            ps.setBigDecimal(1, balance);
-            ps.setLong(2, id);
-            ps.execute();
-        } catch (SQLException e) {
-            logger.fatal("Caught SQLException exception", e);
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * obtains all users from database.
      */
     @Override

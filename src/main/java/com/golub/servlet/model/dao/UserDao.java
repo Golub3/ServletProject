@@ -15,7 +15,5 @@ public interface UserDao extends GenericDao<User> {
 
     boolean emailIsAlreadyTaken(final String email);
 
-    void alterBalanceById(BigDecimal balance, long id);
-
     UserService.PaginationResult findByPagination(int offset, int noOfRecords);
 }

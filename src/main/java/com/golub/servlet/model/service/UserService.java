@@ -1,6 +1,5 @@
 package com.golub.servlet.model.service;
 
-
 import com.golub.servlet.model.dao.DaoFactory;
 import com.golub.servlet.model.dao.UserDao;
 import com.golub.servlet.model.dao.impl.JdbcScheduleDao;
@@ -51,17 +50,17 @@ public class UserService {
      * @param user User.
      */
     public void registerUserAccount(User user) throws AlreadyExistingDBRecordException {
-        try(UserDao userDao = daoFactory.createUserDao()) {
-            if (userDao.emailIsAlreadyTaken(user.getEmail())) {
-                throw new AlreadyExistingDBRecordException("Failed registering already existing user email " +
-                        user.getEmail());
-            }
-            userDao.create(user);
+        UserDao userDao = daoFactory.createUserDao();
+
+        if (userDao.emailIsAlreadyTaken(user.getEmail())) {
+            throw new AlreadyExistingDBRecordException("Failed registering already existing user email " +
+                    user.getEmail());
         }
+        userDao.create(user);
     }
 
     /**
-     * obtains student by email.
+     * obtains user by email.
      *
      * @param email String.
      */
@@ -70,7 +69,7 @@ public class UserService {
         List<User> users = getAllUsers();
 
         return users.stream()
-                .filter(student -> email.equals(student.getEmail()))
+                .filter(user -> email.equals(user.getEmail()))
                 .findAny()
                 .orElse(null);
     }
@@ -82,9 +81,7 @@ public class UserService {
      */
     public boolean isExistingUser(String email, String password) {
         UserDao dao = daoFactory.createUserDao();
-        logger.info(password);
-        logger.info(encodePassword(password));
-        return dao.userIsExist(email, password);
+        return dao.userIsExist(email, encodePassword(password));
 
     }
 
@@ -114,13 +111,13 @@ public class UserService {
      */
     public User.ROLE getRoleByEmailAndPass(String email, String password) {
         UserDao dao = daoFactory.createUserDao();
-        return dao.getRoleByEmailPassword(email, password);
+        return dao.getRoleByEmailPassword(email, encodePassword(password));
 
     }
 
 
     /**
-     * obtains student by id.
+     * obtains user by id.
      *
      * @param id long.
      */
@@ -129,19 +126,9 @@ public class UserService {
         return dao.findById(id);
     }
 
-    /**
-     * obtains student by id.
-     *
-     * @param id long.
-     */
-    public void setBalanceById(BigDecimal balance, long id) {
-        UserDao dao = daoFactory.createUserDao();
-        dao.alterBalanceById(balance, id);
-    }
-
 
     /**
-     * obtains List of all students.
+     * obtains List of all users.
      */
     public List<User> getAllUsers() {
         UserDao dao = daoFactory.createUserDao();

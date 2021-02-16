@@ -16,7 +16,6 @@ import java.util.List;
 
 import static com.golub.servlet.controller.command.TextConstants.Parameters.*;
 import static com.golub.servlet.controller.command.TextConstants.Parameters.ROLE;
-import static com.golub.servlet.controller.command.TextConstants.Routes.*;
 import static com.golub.servlet.controller.command.TextConstants.Routes.BASE;
 import static com.golub.servlet.controller.command.TextConstants.Routes.USER_NOT_EXIST;
 

@@ -84,7 +84,7 @@ public class CommandUtility {
 
 
     /**
-     * Obtain student from current session.
+     * Obtain user from current session.
      *
      * @param request HttpServletRequest.
      */

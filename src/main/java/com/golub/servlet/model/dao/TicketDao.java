@@ -4,8 +4,10 @@ import com.golub.servlet.model.entity.Ticket;
 import com.golub.servlet.model.service.TicketService;
 import com.golub.servlet.model.service.UserService;
 
+import java.math.BigDecimal;
+
 public interface TicketDao extends GenericDao<Ticket>{
-    void createByIds(long exp_id, long user_id);
+    void createByIdsAndAlterBalance(long exp_id, long user_id, BigDecimal balance, long id);
 
     boolean ticketIsBoughtByUser(long exp_id, long user_id);
 

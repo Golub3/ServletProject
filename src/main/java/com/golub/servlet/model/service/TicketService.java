@@ -71,12 +71,10 @@ public class TicketService {
         BigDecimal price = expositionService.getExpositionById(id).getPrice();
         long user_id = userService.getUserByEmail(email).getId();
 
-        logger.info(balance.toString());
-        logger.info(price.toString());
         if ( balance.compareTo(new BigDecimal(Double.toString(0.0))) > 0
                 && balance.compareTo(price) >= 0){
-            userDao.alterBalanceById(balance.subtract(price), user_id);
-            ticketDao.createByIds(id, user_id);
+//            userDao.alterBalanceById(balance.subtract(price), user_id);
+            ticketDao.createByIdsAndAlterBalance(id, user_id, balance.subtract(price), user_id);
             return balance.subtract(price);
         }
         return balance;

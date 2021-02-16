@@ -100,13 +100,13 @@ public class JdbcHallDao implements HallDao {
     }
 
     //utility method. created in order not to duplicate code below
-    private List<Hall> mapFindManyResultSet(ResultSet rs, Map<Long, Hall> schedules) throws SQLException {
+    private List<Hall> mapFindManyResultSet(ResultSet rs, Map<Long, Hall> halls) throws SQLException {
         final HallMapper hallMapper = new HallMapper();
         while (rs.next()) {
             Hall hall = hallMapper.extractFromResultSet(rs);
-            hall = hallMapper.makeUnique(schedules, hall);
+            hall = hallMapper.makeUnique(halls, hall);
         }
-        return new ArrayList<>(schedules.values());
+        return new ArrayList<>(halls.values());
     }
 
     @Override
