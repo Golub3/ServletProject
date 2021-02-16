@@ -3,10 +3,16 @@ package com.golub.servlet.model.service;
 
 import com.golub.servlet.model.dao.DaoFactory;
 import com.golub.servlet.model.dao.UserDao;
+import com.golub.servlet.model.dao.impl.JdbcScheduleDao;
 import com.golub.servlet.model.entity.User;
 import com.golub.servlet.model.exception.AlreadyExistingDBRecordException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
 
@@ -19,6 +25,7 @@ import java.util.Random;
  */
 public class UserService {
 
+    private static final Logger logger = LogManager.getLogger(UserService.class);
     private DaoFactory daoFactory;
     private static UserService instance;
 
@@ -75,10 +82,29 @@ public class UserService {
      */
     public boolean isExistingUser(String email, String password) {
         UserDao dao = daoFactory.createUserDao();
+        logger.info(password);
+        logger.info(encodePassword(password));
         return dao.userIsExist(email, password);
 
     }
 
+    public String encodePassword(String password) {
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(password.getBytes());
+            byte[] bytes = messageDigest.digest();
+
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte oneByte : bytes) {
+                stringBuilder.append(Character.forDigit((oneByte >> 4) & 0xf, 16))
+                        .append(Character.forDigit((oneByte & 0xf), 16));
+            }
+            return stringBuilder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * obtain role by email and password.
