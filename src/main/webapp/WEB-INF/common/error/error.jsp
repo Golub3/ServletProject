@@ -11,6 +11,7 @@
     <body>
         <h2>
            Some error happened<br/>
+<%--            <i>Error <%= exception %></i>--%>
         </h2>
 
 

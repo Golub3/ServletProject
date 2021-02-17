@@ -74,34 +74,22 @@ public class TicketService {
         return list;
     }
 
-    /**
-     * ticket buying.
-     *
-     * @param email String.
-     * @param id long.
-     */
+
     public BigDecimal ticketBuy(String email, long id) {
         TicketDao ticketDao = daoFactory.createTicketDao();
-        UserDao userDao = daoFactory.createUserDao();
         BigDecimal balance = userService.getUserByEmail(email).getBalance();
         BigDecimal price = expositionService.getExpositionById(id).getPrice();
         long user_id = userService.getUserByEmail(email).getId();
 
-        if ( balance.compareTo(new BigDecimal(Double.toString(0.0))) > 0
+        if ( balance.compareTo(new BigDecimal("0.0")) > 0
                 && balance.compareTo(price) >= 0){
-//            userDao.alterBalanceById(balance.subtract(price), user_id);
             ticketDao.createByIdsAndAlterBalance(id, user_id, balance.subtract(price), user_id);
             return balance.subtract(price);
         }
         return balance;
     }
 
-    /**
-     * get all bought tickets by user id in db.
-     *
-     * @param exp_id long.
-     * @param user_id long.
-     */
+
     public boolean isBoughtByUser(long exp_id, long user_id) {
         TicketDao dao = daoFactory.createTicketDao();
         return dao.ticketIsBoughtByUser(exp_id, user_id);

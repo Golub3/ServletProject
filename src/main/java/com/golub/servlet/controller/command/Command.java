@@ -5,10 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Common interface for all commands.
- * @author Vitalii Holub.
- */
+
 public interface Command {
     /**
      * This is the executing certain command method

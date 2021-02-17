@@ -25,6 +25,7 @@ public class Logout implements Command {
             throws ServletException, IOException {
 
         final String email = (String)request.getSession().getAttribute("email");
+                //invalidate();
         CommandUtility.logoutUser(request, email);
         logger.info("User [" + email + "] " + "logged out." );
 
