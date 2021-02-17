@@ -28,6 +28,8 @@ public interface TextConstants {
         String START_TIME = "time_start";
         String END_TIME = "time_end";
         String DATE = "date";
+        String THEME = "theme";
+        String PRICE = "price";
     }
 
 
@@ -55,6 +57,7 @@ public interface TextConstants {
         String TO_SHOW_SCHEDULES = "/WEB-INF/user/schedules.jsp";
         String TO_SHOW_SCHEDULES_FOR_ADMIN = "/WEB-INF/admin/schedules.jsp";
         String TO_SCHEDULE_CREATE = "/WEB-INF/admin/createSchedule.jsp";
+        String TO_EXPOSITION_CREATE = "/WEB-INF/admin/createExposition.jsp";
     }
 
     interface CommandPaths {
@@ -69,6 +72,7 @@ public interface TextConstants {
         String REG_ME = "reg-me";
         String LOG_ME = "log-me";
         String SCHEDULE_CREATE_PAGE = "createSchedule";
+        String EXPOSITION_CREATE_PAGE = "createExposition";
 
         //servlet
         String APPLICATION_PATH_REGEX = ".*/app/";
@@ -80,6 +84,7 @@ public interface TextConstants {
         String TICKET_BUY = "ticket";
         String SCHEDULE_DELETE = "deleteSchedule";
         String SCHEDULE_CREATE = "createSchedulePage";
+        String EXPOSITION_CREATE = "createExpositionPage";
     }
 
 }

@@ -22,39 +22,21 @@
 <body>
 <div class="container">
 
-    <h1><fmt:message key="button.create.schedule"/></h1>
+    <h1><fmt:message key="button.create.exposition"/></h1>
     <hr>
-    <h2><fmt:message key="button.save.schedule"/></h2>
+    <h2><fmt:message key="button.save.exposition"/></h2>
 
-    <form href="${pageContext.request.contextPath}/app/schedules"
+    <form href="${pageContext.request.contextPath}/app/expositions"
           method="POST">
 
-        <input type="time" name="time_start"
-               placeholder="Time start" class="form-control mb-4 col-4">
+        <input type="text" name="theme"
+               placeholder=<fmt:message key="theme"/> class="form-control mb-4 col-4">
 
-        <input type="time" name="time_end"
-               placeholder="Time end" class="form-control mb-4 col-4">
+        <input type="text" name="price"
+               placeholder=<fmt:message key="price"/> class="form-control mb-4 col-4">
 
-        <input type="date" name="date"
-               placeholder="Date" class="form-control mb-4 col-4">
 
-        <select name="hall">
-            <c:forEach items="${halls}" var="halls">
-                <option value = ${halls.id_hall}>
-                        ${halls.name}
-                </option>
-            </c:forEach>
-        </select>
-
-        <select name="exposition">
-            <c:forEach items="${expositions}" var="expositions" >
-                <option value = ${expositions.id_exp}>
-                        ${expositions.theme}
-                </option>
-            </c:forEach>
-        </select>
-
-        <button type="submit" class="btn btn-info col-2"><h2><fmt:message key="button.save.schedule"/></h2></button>
+        <button type="submit" class="btn btn-info col-2"><h2><fmt:message key="button.save.exposition"/></h2></button>
     </form>
 
     <hr>

@@ -3,10 +3,12 @@ package com.golub.servlet.model.dao.impl;
 import com.golub.servlet.model.dao.ExpositionDao;
 import com.golub.servlet.model.dao.impl.queries.ExpositionSQL;
 import com.golub.servlet.model.dao.impl.queries.HallSQL;
+import com.golub.servlet.model.dao.impl.queries.ScheduleSQL;
 import com.golub.servlet.model.dao.mapper.ExpositionMapper;
 import com.golub.servlet.model.dao.mapper.HallMapper;
 import com.golub.servlet.model.entity.Exposition;
 import com.golub.servlet.model.entity.Hall;
+import com.golub.servlet.model.entity.Schedule;
 import com.golub.servlet.model.entity.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -50,10 +52,22 @@ public class JdbcExpositionDao implements ExpositionDao {
         instance.setConnection(connection);
     }
 
+
     @Override
     public void create(Exposition exposition) {
-        throw new UnsupportedOperationException("This action has not yet been developed.");
+        try (PreparedStatement ps = connection.prepareStatement(ExpositionSQL.INSERT.getQUERY())) {
+
+            ps.setString(1, exposition.getTheme());
+            ps.setBigDecimal(2, exposition.getPrice());
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            logger.fatal("Caught SQLException exception", e);
+            e.printStackTrace();
+        }
     }
+
 
     /**
      * finds Exposition in database.

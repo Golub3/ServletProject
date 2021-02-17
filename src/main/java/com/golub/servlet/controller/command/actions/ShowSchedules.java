@@ -35,8 +35,12 @@ import static com.golub.servlet.model.service.ScheduleService.PaginationResult;
 public class ShowSchedules implements Command {
 
     private final ScheduleService scheduleService;
-    LocalDate start_date = LocalDate.now().minusDays(14);
-    LocalDate end_date = LocalDate.now().plusMonths(6);
+
+    private LocalDate start_date = LocalDate.now().minusDays(14);
+    private LocalDate end_date = LocalDate.now().plusMonths(6);
+    private String sort_field = "exposition.theme";
+    private String dir = "asc";
+    private int currentPage = 1;
 
     private static final Logger logger = LogManager.getLogger(Login.class);
 
@@ -60,8 +64,7 @@ public class ShowSchedules implements Command {
         //to prevent schedule coming back to cached pages after logout
         CommandUtility.disallowBackToCached(request, response);
 
-        int RECORDS_PER_PAGE = 3;
-        int currentPage = 1;
+        int RECORDS_PER_PAGE = 4;
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         }
@@ -70,7 +73,6 @@ public class ShowSchedules implements Command {
         if (role.equals(User.ROLE.ADMIN) ){
             return TO_SHOW_SCHEDULES_FOR_ADMIN;
         } else return TO_SHOW_SCHEDULES;
-
     }
 
     private void performPagination(HttpServletRequest request, int currentPage, int recordsPerPage) {
@@ -80,33 +82,23 @@ public class ShowSchedules implements Command {
         request.setAttribute("start_date_way", START_DATE);
         request.setAttribute("end_date_way", END_DATE);
         request.setAttribute("schedules_uri", request.getRequestURI());
-        String sort_field = "exposition.theme";
-        String dir = "asc";
 
-
-        if (request.getParameter(SORT_FIELD) != null) {
+        if (request.getParameter(SORT_FIELD) != null || request.getParameter(DIR) != null) {
             sort_field = request.getParameter(SORT_FIELD);
-        }
-        request.setAttribute("sort_field", sort_field);
-
-        if (request.getParameter(DIR) != null) {
             dir = request.getParameter(DIR);
         }
-        request.setAttribute("dir", dir);
+        request.setAttribute(SORT_FIELD, sort_field);
+        request.setAttribute(DIR, dir);
 
-        if (request.getParameter("start") != null) {
+        if (request.getParameter("start") != null || request.getParameter("end") != null) {
             start_date = LocalDate.parse(request.getParameter("start"));
-        }
-        request.setAttribute(START_DATE, start_date);
-
-        if (request.getParameter("end") != null) {
             end_date = LocalDate.parse(request.getParameter("end"));
         }
+        request.setAttribute(START_DATE, start_date);
         request.setAttribute(END_DATE, end_date);
 
-        PaginationResult paginationResult =
-                scheduleService.getSchedulesByPagination(sort_field, dir, start_date, end_date,
-                        lowerBound, recordsPerPage);
+        PaginationResult paginationResult = scheduleService.getSchedulesByPagination(
+                sort_field, dir, start_date, end_date, lowerBound, recordsPerPage);
 
         List<Schedule> schedules = paginationResult.getResultList();
         int noOfRecords = paginationResult.getNoOfRecords();

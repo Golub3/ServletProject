@@ -7,6 +7,10 @@ package com.golub.servlet.model.dao.impl.queries;
 public enum ExpositionSQL {
     READ_ONE("select * from exposition where id_exp=(?)"),
 
+    INSERT("INSERT INTO exposition " +
+            "(theme, price) " +
+            "VALUES ((?),(?))"),
+
     READ_ALL("select * from exposition");
 
     String QUERY;

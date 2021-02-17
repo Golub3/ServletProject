@@ -1,4 +1,4 @@
-# SpringProject
+# ServletProject
 # Task.
 ![Screenshot](task.PNG)
 # Diagram.

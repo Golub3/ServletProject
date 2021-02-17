@@ -3,8 +3,10 @@ package com.golub.servlet.model.service;
 import com.golub.servlet.model.dao.DaoFactory;
 import com.golub.servlet.model.dao.ExpositionDao;
 import com.golub.servlet.model.dao.HallDao;
+import com.golub.servlet.model.dao.ScheduleDao;
 import com.golub.servlet.model.entity.Exposition;
 import com.golub.servlet.model.entity.Hall;
+import com.golub.servlet.model.entity.Schedule;
 
 import java.util.List;
 
@@ -50,5 +52,13 @@ public class ExpositionService {
     public Exposition getExpositionById(long id) {
         ExpositionDao dao = daoFactory.createExpositionDao();
         return dao.findById(id);
+    }
+
+    /**
+     * Create exposition.
+     */
+    public void createExposition(Exposition exposition) {
+        ExpositionDao dao = daoFactory.createExpositionDao();
+        dao.create(exposition);
     }
 }

@@ -45,7 +45,8 @@ public class AccessFilter implements Filter {
 
         allowedRoutes.put(User.ROLE.ADMIN,
                 Stream.of(LOGOUT, PERSONAL_CABINET, SHOW_USERS, SHOW_SCHEDULES, SCHEDULE_DELETE, TO_SCHEDULE_CREATE,
-                        SCHEDULE_CREATE, SCHEDULE_CREATE_PAGE)
+                        SCHEDULE_CREATE, SCHEDULE_CREATE_PAGE, TO_EXPOSITION_CREATE,
+                        EXPOSITION_CREATE, EXPOSITION_CREATE_PAGE)
                         .collect(collectingAndThen(
                                 toCollection(HashSet::new), Collections::unmodifiableSet)));
     }

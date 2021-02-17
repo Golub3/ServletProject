@@ -25,6 +25,8 @@
 
     <a href="${pageContext.request.contextPath}/app/createSchedulePage" class="btn btn-primary btn-sm mb-3">
         <fmt:message key="button.create.schedule"/> </a>
+    <a href="${pageContext.request.contextPath}/app/createExpositionPage" class="btn btn-primary btn-sm mb-3">
+        <fmt:message key="button.create.exposition"/> </a>
 
     <form action="${pageContext.request.contextPath}/app/schedules?currentPage=${currentPage}
 &${sort_way}=exposition.theme&${dir_way}=asc"
@@ -39,26 +41,26 @@
     </form>
 
     <div style="margin-left: 45px;">
-        <b style="font-size: 18px;">sort</b>
+        <b style="font-size: 18px;"><fmt:message key="sort"/></b>
         <a class="btn btn-default" style="margin-bottom: 5px;"
            href="${pageContext.request.contextPath}/app/schedules?currentPage=${currentPage}
 &${sort_way}=exposition.theme&${dir_way}=asc">
-            sort theme asc
+            <fmt:message key="sort.theme.a-z"/>
         </a>
         <a class="btn btn-default" style="margin-bottom: 5px;"
            href="${pageContext.request.contextPath}/app/schedules?currentPage=${currentPage}
 &${sort_way}=exposition.theme&${dir_way}=desc">
-            sort theme desc
+            <fmt:message key="sort.theme.z-a"/>
         </a>
         <a class="btn btn-default" style="margin-bottom: 5px;"
            href="${pageContext.request.contextPath}/app/schedules?currentPage=${currentPage}
 &${sort_way}=exposition.price&${dir_way}=asc">
-            sort price asc
+            <fmt:message key="sort.price.a-z"/>
         </a>
         <a class="btn btn-default" style="margin-bottom: 5px;"
            href="${pageContext.request.contextPath}/app/schedules?currentPage=${currentPage}
 &${sort_way}=exposition.price&${dir_way}=desc">
-            sort price desc
+            <fmt:message key="sort.theme.z-a"/>
         </a>
     </div>
 

@@ -54,6 +54,8 @@ public class Servlet extends HttpServlet {
                 new LogMe());
         commands.put(SCHEDULE_CREATE_PAGE,
                 new ToScheduleCreate());
+        commands.put(EXPOSITION_CREATE_PAGE,
+                new ToExpositionCreate());
 
         //actions
         commands.put(SHOW_USERS,
@@ -66,6 +68,8 @@ public class Servlet extends HttpServlet {
                 new ScheduleDelete());
         commands.put(SCHEDULE_CREATE,
                 new ScheduleCreate());
+        commands.put(EXPOSITION_CREATE,
+                new ExpositionCreate());
     }
 
 
