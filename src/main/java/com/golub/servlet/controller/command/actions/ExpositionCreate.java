@@ -7,6 +7,8 @@ import com.golub.servlet.model.entity.Ticket;
 import com.golub.servlet.model.service.ExpositionService;
 import com.golub.servlet.model.service.HallService;
 import com.golub.servlet.model.service.ScheduleService;
+import com.golub.servlet.model.validator.ExpositionValidator;
+import com.golub.servlet.model.validator.UserValidator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -39,11 +41,19 @@ public class ExpositionCreate implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        if(request.getParameter(THEME) != null) {
+        if(request.getParameter(PRICE) != null && request.getParameter(THEME) != null) {
+
+            if (!(ExpositionValidator.validateTheme(request.getParameter(THEME)))){
+                return THEME_FAIL_INVALID_DATA;
+            }
+            if (!(ExpositionValidator.validatePrice(request.getParameter(PRICE)))){
+                return PRICE_FAIL_INVALID_DATA;
+            }
             expositionService.createExposition(Exposition.builder()
                     .withTheme(request.getParameter(THEME))
                     .withPrice(new BigDecimal(request.getParameter(PRICE))).build()
             );
+            return EXPOSITION_SUCCESS;
         }
 
         return TO_EXPOSITION_CREATE;

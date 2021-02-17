@@ -85,13 +85,11 @@ public class JdbcHallDao implements HallDao {
 
     @Override
     public List<Hall> findAll() {
-        Map<Long, Hall> halls = new HashMap<>();
-
         final String query = HallSQL.READ_ALL.getQUERY();
 
         try (Statement st = connection.createStatement()) {
             final ResultSet rs = st.executeQuery(query);
-            return mapFindManyResultSet(rs, halls);
+            return mapData(rs);
         } catch (SQLException e) {
             logger.fatal("Caught SQLException exception", e);
             e.printStackTrace();
@@ -99,14 +97,14 @@ public class JdbcHallDao implements HallDao {
         }
     }
 
-    //utility method. created in order not to duplicate code below
-    private List<Hall> mapFindManyResultSet(ResultSet rs, Map<Long, Hall> halls) throws SQLException {
+    private List<Hall> mapData(ResultSet rs) throws SQLException {
         final HallMapper hallMapper = new HallMapper();
+        List<Hall> list = new ArrayList<>();
         while (rs.next()) {
             Hall hall = hallMapper.extractFromResultSet(rs);
-            hall = hallMapper.makeUnique(halls, hall);
+            list.add(hall);
         }
-        return new ArrayList<>(halls.values());
+        return list;
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.golub.servlet.controller.command.TextConstants.Parameters.EMAIL;
@@ -59,6 +60,21 @@ public class TicketService {
     }
 
     /**
+     * get list of numbers
+     * of bought tickets by users in list.
+     *
+     * @param users List<User>.
+     */
+    public List<Integer> getNumberOfBoughtTickets(List<User> users) {
+        TicketDao dao = daoFactory.createTicketDao();
+        List<Integer> list = new ArrayList<>();
+        for(User user : users){
+            list.add(dao.countOfTicketsBoughtByUser(user.getId()));
+        }
+        return list;
+    }
+
+    /**
      * ticket buying.
      *
      * @param email String.
@@ -100,7 +116,7 @@ public class TicketService {
      */
     public long getCountOfTicketsBoughtByUser(long exp_id, long user_id) {
         TicketDao dao = daoFactory.createTicketDao();
-        return dao.countOfTicketsBoughtByUser(exp_id, user_id);
+        return dao.countOfTicketsBoughtByUserOnExposition(exp_id, user_id);
     }
 
     /**

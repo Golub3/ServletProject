@@ -106,13 +106,12 @@ public class JdbcUserDao implements UserDao {
      */
     @Override
     public List<User> findAll() {
-        Map<Long, User> users = new HashMap<>();
 
         final String query = UserSQL.READ_ALL.getQUERY();
 
         try (Statement st = connection.createStatement()) {
             final ResultSet rs = st.executeQuery(query);
-            return mapFindManyResultSet(rs, users);
+            return mapData(rs);
         } catch (SQLException e) {
             logger.fatal("Caught SQLException exception", e);
             e.printStackTrace();
@@ -120,14 +119,14 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
-    //utility method. created in order not to duplicate code below
-    private List<User> mapFindManyResultSet(ResultSet rs, Map<Long, User> users) throws SQLException {
+    private List<User> mapData(ResultSet rs) throws SQLException {
         final UserMapper userMapper = new UserMapper();
+        List<User> list = new ArrayList<>();
         while (rs.next()) {
             User user = userMapper.extractFromResultSet(rs);
-            user = userMapper.makeUnique(users, user);
+            list.add(user);
         }
-        return new ArrayList<>(users.values());
+        return list;
     }
 
     @Override
@@ -246,7 +245,7 @@ public class JdbcUserDao implements UserDao {
 
         UserService.PaginationResult paginationResult = new UserService.PaginationResult();
 
-        Map<Long, User> users = new HashMap<>();
+        List<User> users = new ArrayList<>();
         UserMapper userMapper = new UserMapper();
 
         try (PreparedStatement usersPS = connection.prepareStatement(UserSQL.GET_USERS_BY_PAGINATION.getQUERY());
@@ -257,7 +256,7 @@ public class JdbcUserDao implements UserDao {
             ResultSet rs = usersPS.executeQuery();
             while (rs.next()) {
                 User user = userMapper.extractFromResultSet(rs);
-                user = userMapper.makeUnique(users, user);
+                users.add(user);
             }
             rs.close();
 
@@ -270,7 +269,7 @@ public class JdbcUserDao implements UserDao {
             logger.fatal("Caught SQLException exception", e);
             e.printStackTrace();
         }
-        paginationResult.setResultList(new ArrayList<>(users.values()));
+        paginationResult.setResultList(users);
         return paginationResult;
     }
 }

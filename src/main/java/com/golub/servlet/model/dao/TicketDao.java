@@ -11,7 +11,9 @@ public interface TicketDao extends GenericDao<Ticket>{
 
     boolean ticketIsBoughtByUser(long exp_id, long user_id);
 
-    long countOfTicketsBoughtByUser(long exp_id, long user_id);
+    long countOfTicketsBoughtByUserOnExposition(long exp_id, long user_id);
+
+    int countOfTicketsBoughtByUser(long id);
 
     TicketService.PaginationResult findByPagination(long user_id, int offset, int noOfRecords);
 

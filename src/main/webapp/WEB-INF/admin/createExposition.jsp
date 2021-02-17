@@ -26,6 +26,18 @@
     <hr>
     <h2><fmt:message key="button.save.exposition"/></h2>
 
+    <c:if test="${param.themeInvalid == true}">
+        <p style="color: orange"><fmt:message key="invalid.theme"/></p>
+    </c:if>
+
+    <c:if test="${param.priceInvalid == true}">
+        <p style="color: orange"><fmt:message key="invalid.price"/></p>
+    </c:if>
+
+    <c:if test="${param.success == true}">
+        <p style="color: green"><fmt:message key="create.success"/></p>
+    </c:if>
+
     <form href="${pageContext.request.contextPath}/app/expositions"
           method="POST">
 

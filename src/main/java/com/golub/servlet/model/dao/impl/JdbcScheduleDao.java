@@ -75,13 +75,12 @@ public class JdbcScheduleDao implements ScheduleDao {
 
     @Override
     public List<Schedule> findAll() {
-        Map<Long, Schedule> schedules = new HashMap<>();
 
         final String query = ScheduleSQL.READ_ALL.getQUERY();
 
         try (Statement st = connection.createStatement()) {
             final ResultSet rs = st.executeQuery(query);
-            return mapFindManyResultSet(rs, schedules);
+            return mapData(rs);
         } catch (SQLException e) {
             logger.fatal("Caught SQLException exception", e);
             e.printStackTrace();
@@ -89,14 +88,14 @@ public class JdbcScheduleDao implements ScheduleDao {
         }
     }
 
-    //utility method. created in order not to duplicate code below
-    private List<Schedule> mapFindManyResultSet(ResultSet rs, Map<Long, Schedule> schedules) throws SQLException {
+    private List<Schedule> mapData(ResultSet rs) throws SQLException {
         final ScheduleMapper scheduleMapper = new ScheduleMapper();
+        List<Schedule> list = new ArrayList<>();
         while (rs.next()) {
             Schedule schedule = scheduleMapper.extractFromResultSet(rs);
-            schedule = scheduleMapper.makeUnique(schedules, schedule);
+            list.add(schedule);
         }
-        return new ArrayList<>(schedules.values());
+        return list;
     }
 
     @Override

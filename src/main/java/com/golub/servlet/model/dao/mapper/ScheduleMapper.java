@@ -37,9 +37,4 @@ public class ScheduleMapper implements ObjectMapper<Schedule>{
                 .build();
     }
 
-    public Schedule makeUnique(Map<Long, Schedule> existing, Schedule entity) {
-        existing.putIfAbsent(entity.getId(), entity);
-
-        return existing.get(entity.getId());
-    }
 }

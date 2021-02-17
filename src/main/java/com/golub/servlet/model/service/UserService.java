@@ -2,18 +2,14 @@ package com.golub.servlet.model.service;
 
 import com.golub.servlet.model.dao.DaoFactory;
 import com.golub.servlet.model.dao.UserDao;
-import com.golub.servlet.model.dao.impl.JdbcScheduleDao;
 import com.golub.servlet.model.entity.User;
 import com.golub.servlet.model.exception.AlreadyExistingDBRecordException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Random;
 
 
 /**

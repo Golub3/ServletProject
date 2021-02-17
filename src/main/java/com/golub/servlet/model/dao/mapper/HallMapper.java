@@ -20,9 +20,4 @@ public class HallMapper implements ObjectMapper<Hall>{
                 .build();
     }
 
-
-    public Hall makeUnique(Map<Long, Hall> existing, Hall entity) {
-        existing.putIfAbsent(entity.getId_hall(), entity);
-        return existing.get(entity.getId_hall());
-    }
 }

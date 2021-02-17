@@ -159,12 +159,25 @@ public class JdbcTicketDao implements TicketDao {
     }
 
     @Override
-    public long countOfTicketsBoughtByUser(long exp_id, long user_id){
+    public long countOfTicketsBoughtByUserOnExposition(long exp_id, long user_id){
         try(PreparedStatement countRowsPS =
                     connection.prepareStatement(TicketSQL.CALC_TICKETS_BY_USER_ID_AND_EXPOSITION_ID.getQUERY())){
             countRowsPS.setLong(1, exp_id);
             countRowsPS.setLong(2, user_id);
             return countRowsPS.executeQuery().getLong(1);
+        } catch (SQLException e) {
+            logger.fatal("Caught SQLException exception", e);
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int countOfTicketsBoughtByUser(long id){
+        try(PreparedStatement countRowsPS =
+                    connection.prepareStatement(TicketSQL.CALC_TICKETS_BY_USER_ID.getQUERY())){
+            countRowsPS.setLong(1, id);
+            return countRowsPS.executeQuery().getInt(1);
         } catch (SQLException e) {
             logger.fatal("Caught SQLException exception", e);
             e.printStackTrace();

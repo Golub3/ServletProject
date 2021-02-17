@@ -42,9 +42,4 @@ public class UserMapper implements ObjectMapper<User>{
         return user;
     }
 
-    public User makeUnique(Map<Long, User> existing, User entity) {
-        existing.putIfAbsent(entity.getId(), entity);
-
-        return existing.get(entity.getId());
-    }
 }

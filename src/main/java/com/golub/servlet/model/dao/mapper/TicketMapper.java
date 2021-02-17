@@ -25,8 +25,4 @@ public class TicketMapper implements ObjectMapper<Ticket>{
                 .build();
     }
 
-    public Ticket makeUnique(Map<Long, Ticket> existing, Ticket entity) {
-        existing.putIfAbsent(entity.getTicket_id(), entity);
-        return existing.get(entity.getTicket_id());
-    }
 }

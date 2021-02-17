@@ -15,6 +15,7 @@ public interface TextConstants {
         String LOGGED_USERS = "loggedUsers";
         String BALANCE = "balance";
         String CURRENT_PAGE = "currentPage";
+        String BOUGHT_TICKETS = "boughtTickets";
         String NO_OF_PAGES = "noOfPages";
         String USERS = "users";
         String TICKETS = "tickets";
@@ -49,6 +50,9 @@ public interface TextConstants {
         String REGISTRATION_FAIL_PASSWORDS_DIFFERENT = "/WEB-INF/common/registration.jsp?passwordsDifferent=true";
         String REGISTRATION_FAIL_USER_EXIST = "/WEB-INF/common/registration.jsp?alreadyExist=true";
         String REGISTRATION_SUCCESS = "/WEB-INF/common/registration.jsp?success=true";
+        String EXPOSITION_SUCCESS = "/WEB-INF/admin/createExposition.jsp?success=true";
+        String PRICE_FAIL_INVALID_DATA = "/WEB-INF/admin/createExposition.jsp?priceInvalid=true";
+        String THEME_FAIL_INVALID_DATA = "/WEB-INF/admin/createExposition.jsp?themeInvalid=true";
 
         String TO_HOME = "/WEB-INF/common/welcome.jsp";
         String TO_LOGIN = "/WEB-INF/common/login.jsp";

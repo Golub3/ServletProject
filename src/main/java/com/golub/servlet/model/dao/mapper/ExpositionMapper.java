@@ -22,9 +22,4 @@ public class ExpositionMapper implements ObjectMapper<Exposition>{
                 .build();
     }
 
-
-    public Exposition makeUnique(Map<Long, Exposition> existing, Exposition entity) {
-        existing.putIfAbsent(entity.getId_exp(), entity);
-        return existing.get(entity.getId_exp());
-    }
 }

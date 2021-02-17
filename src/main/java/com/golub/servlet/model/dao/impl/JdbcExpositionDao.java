@@ -97,13 +97,11 @@ public class JdbcExpositionDao implements ExpositionDao {
 
     @Override
     public List<Exposition> findAll() {
-        Map<Long, Exposition> expositions = new HashMap<>();
-
         final String query = ExpositionSQL.READ_ALL.getQUERY();
 
         try (Statement st = connection.createStatement()) {
             final ResultSet rs = st.executeQuery(query);
-            return mapFindManyResultSet(rs, expositions);
+            return mapData(rs);
         } catch (SQLException e) {
             logger.fatal("Caught SQLException exception", e);
             e.printStackTrace();
@@ -111,14 +109,14 @@ public class JdbcExpositionDao implements ExpositionDao {
         }
     }
 
-    //utility method. created in order not to duplicate code below
-    private List<Exposition> mapFindManyResultSet(ResultSet rs, Map<Long, Exposition> expositions) throws SQLException {
+    private List<Exposition> mapData(ResultSet rs) throws SQLException {
         final ExpositionMapper expositionMapper = new ExpositionMapper();
+        List<Exposition> list = new ArrayList<>();
         while (rs.next()) {
             Exposition exposition = expositionMapper.extractFromResultSet(rs);
-            exposition = expositionMapper.makeUnique(expositions, exposition);
+            list.add(exposition);
         }
-        return new ArrayList<>(expositions.values());
+        return list;
     }
 
     @Override
